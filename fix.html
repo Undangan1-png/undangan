@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Pernikahan Makruf & Puput</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400&display=swap');
+        
+        :root {
+            --font-serif: 'Playfair Display', serif;
+            --font-sans: 'Roboto', sans-sans-serif;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            color: #1a1a1a;
+            background-color: #f5f5f5;
+            overflow-x: hidden;
+        }
+
+        .section-background {
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        .overlay {
+            background-color: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(2px);
+        }
+        
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            /* Placeholder Image: Ganti dengan tautan gambar Anda */
+            background-image: url('https://lh3.googleusercontent.com/d/1sokyxYriMv93xAP7Fzma3BZZ9rHHcZPo');
+        }
+
+        .content {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+
+        .content.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .countdown-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            gap: 2rem;
+        }
+
+        .countdown-item {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 1rem;
+            border-radius: 0.75rem;
+            min-width: 60px;
+        }
+
+        .countdown-item p {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 0.25rem;
+        }
+
+        .countdown-item span {
+            font-size: 0.875rem;
+            color: #555;
+            text-transform: uppercase;
+        }
+
+        .gallery-image {
+            transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out;
+            cursor: pointer;
+        }
+
+        .gallery-image:hover {
+            transform: scale(1.05);
+            filter: grayscale(0%);
+        }
+
+        .parallax-bg {
+            /* Placeholder Image: Ganti dengan tautan gambar Anda */
+            background-image: url('https://lh3.googleusercontent.com/d/1OoJa9bRjese_h96O_kwngu0MmwV5PYDP');
+            height: 50vh;
+        }
+
+        .scroll-down {
+            position: absolute;
+            bottom: 2rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .open-button {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .open-button:hover {
+            transform: scale(1.05);
+        }
+        
+        .guestbook-message {
+            background: #f5f5f5;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            border-left: 4px solid #000;
+        }
+        
+        .message-author {
+            font-weight: bold;
+            font-family: var(--font-serif);
+            margin-bottom: 0.5rem;
+            color: #1a1a1a;
+        }
+
+        .magic-button {
+            transition: all 0.3s ease-in-out;
+        }
+
+        .magic-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-[#f5f5f5]">
+
+    <!-- Landing Page (Intro) -->
+    <div id="landing-page" class="bg-black fixed inset-0 z-50 flex flex-col items-center justify-center text-center p-4 transition-opacity duration-1000">
+        <h1 class="text-white text-3xl md:text-5xl font-serif mb-4 animate-pulse">Undangan Pernikahan</h1>
+        <p class="text-white text-lg md:text-xl font-sans mb-8">Kepada Yth. Bapak/Ibu/Saudara/i</p>
+        <p id="guest-name" class="text-white text-xl md:text-2xl font-serif mb-12">Tamu Undangan</p>
+        <button id="open-invitation" class="open-button bg-white text-black text-lg py-3 px-8 rounded-full shadow-lg font-bold hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white">
+            Buka Undangan
+        </button>
+    </div>
+
+    <!-- Main Content -->
+    <main id="main-content" class="hidden">
+        
+        <!-- Hero Section -->
+        <section id="hero" class="hero-section section-background text-white relative">
+            <div class="absolute inset-0 bg-black opacity-50"></div>
+            <div class="relative z-10 p-6 md:p-12 text-center content">
+                <p class="text-sm md:text-lg mb-2 font-sans">Kami mengundang Anda untuk merayakan cinta kami</p>
+                <h1 class="text-4xl md:text-7xl font-bold font-serif my-4">SAFI'I & PUPUT</h1>
+                <p class="text-xl md:text-2xl font-sans">9 Oktober 2025</p>
+                <div class="scroll-down text-white">
+                    <svg class="w-8 h-8 md:w-10 md:h-10 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-16 md:py-24 px-6 text-center bg-white">
+            <div class="max-w-4xl mx-auto content">
+                <h2 class="text-3xl md:text-5xl font-serif font-bold mb-8">Mempelai</h2>
+                <div class="flex flex-col md:flex-row justify-center items-center gap-12 md:gap-24">
+                    <!-- Groom -->
+                    <div class="w-full md:w-1/2">
+                        <h3 class="text-2xl md:text-3xl font-serif font-bold mb-2">MAKHRUF SAFI'I</h3>
+                        <p class="text-gray-600">Putra dari</p>
+                        <p class="font-bold">Bpk. Supar & Ibu Kasih</p>
+                    </div>
+                    <!-- Separator -->
+                    <div class="text-4xl md:text-5xl font-serif">&</div>
+                    <!-- Bride -->
+                    <div class="w-full md:w-1/2">
+                        <h3 class="text-2xl md:text-3xl font-serif font-bold mb-2">ANDRI PUPUT LESTARI</h3>
+                        <p class="text-gray-600">Putri dari</p>
+                        <p class="font-bold">Bpk. Sujono & Ibu Syam Afriani</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Countdown Section -->
+        <section id="countdown" class="py-16 md:py-24 px-6 text-center bg-[#f5f5f5]">
+            <div class="max-w-4xl mx-auto content">
+                <h2 class="text-3xl md:text-5xl font-serif font-bold mb-8">Hitung Mundur</h2>
+                <div id="countdown-timer" class="countdown-container">
+                    <!-- Countdown items will be populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Parallax Section -->
+        <section class="parallax-bg section-background bg-gray-200">
+            <div class="overlay w-full h-full flex items-center justify-center p-6 text-center">
+                <p class="text-white text-lg md:text-2xl font-serif italic content">
+                    "Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang. Sungguh, pada yang demikian itu benar-benar terdapat tanda-tanda (kebesaran Allah) bagi kaum yang berpikir." (QS. Ar-Rum: 21)
+                </p>
+            </div>
+        </section>
+        
+        <!-- Event Details Section -->
+        <section id="event-details" class="py-16 md:py-24 px-6 text-center bg-white">
+            <div class="max-w-4xl mx-auto content">
+                <h2 class="text-3xl md:text-5xl font-serif font-bold mb-8">Detail Acara</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
+                    <!-- Akad Nikah -->
+                    <div class="p-6 md:p-8 bg-[#f5f5f5] rounded-xl shadow-lg transition-transform duration-300 transform hover:scale-105">
+                        <h3 class="text-2xl font-serif font-bold mb-4">Akad Nikah</h3>
+                        <p class="text-gray-700">Kamis, 9 Oktober 2025</p>
+                        <p class="text-gray-700 font-bold mb-2">Pukul 08:00 WIB</p>
+                        <p class="text-gray-700">Bertempat di Kediaman Mempelai Wanita</p>
+                    </div>
+                    <!-- Resepsi -->
+                    <div class="p-6 md:p-8 bg-[#f5f5f5] rounded-xl shadow-lg transition-transform duration-300 transform hover:scale-105">
+                        <h3 class="text-2xl font-serif font-bold mb-4">Resepsi</h3>
+                        <p class="text-gray-700">Kamis, 9 Oktober 2025</p>
+                        <p class="text-gray-700 font-bold mb-2">Pukul 10:00 WIB</p>
+                        <p class="text-700">Bertempat di Kediaman Mempelai Wanita</p>
+                    </div>
+                </div>
+                <a href="https://maps.app.goo.gl/y8449c4YGFCjMRay6" target="_blank" class="mt-8 inline-block bg-black text-white py-3 px-8 rounded-full font-bold shadow-md transition-transform duration-300 transform hover:scale-105">
+                    Lihat Lokasi di Google Maps
+                </a>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section id="gallery" class="py-16 md:py-24 px-6 text-center bg-[#1a1a1a] text-white">
+            <div class="max-w-4xl mx-auto content">
+                <h2 class="text-3xl md:text-5xl font-serif font-bold mb-8">Galeri Foto</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <img src="https://lh3.googleusercontent.com/d/1bCfK3fCw6lofDtKm9vdrTpk5WvrNsRYW" alt="Foto Pasangan 1" class="w-full h-auto rounded-xl shadow-lg filter grayscale gallery-image">
+                    <img src="https://lh3.googleusercontent.com/d/1OoJa9bRjese_h96O_kwngu0MmwV5PYDP" alt="Foto Pasangan 2" class="w-full h-auto rounded-xl shadow-lg filter grayscale gallery-image">
+                </div>
+            </div>
+        </section>
+        
+        <!-- Guestbook Section (fitur baru dengan Gemini API dan Firestore) -->
+        <section id="guestbook" class="py-16 md:py-24 px-6 text-center bg-white">
+            <div class="max-w-4xl mx-auto content">
+                <h2 class="text-3xl md:text-5xl font-serif font-bold mb-8">Buku Tamu</h2>
+                <p class="text-lg md:text-xl font-sans mb-8">Bagikan ucapan selamat dan doa terbaik Anda untuk kami!</p>
+                
+                <form id="guestbook-form" class="flex flex-col gap-4 max-w-lg mx-auto p-6 bg-[#f5f5f5] rounded-xl shadow-lg">
+                    <input type="text" id="guest-name-input" class="p-3 rounded-lg border border-gray-300" placeholder="Nama Anda" required>
+                    <textarea id="guest-message-input" rows="4" class="p-3 rounded-lg border border-gray-300" placeholder="Tulis pesan Anda..." required></textarea>
+                    
+                    <button type="button" id="gemini-magic-button" class="magic-button bg-gray-200 text-black py-3 px-6 rounded-full font-bold hover:bg-gray-300 focus:outline-none flex items-center justify-center gap-2">
+                        <span id="magic-button-text">✨ Sentuhan Ajaib ✨</span>
+                    </button>
+                    
+                    <button type="submit" class="bg-black text-white py-3 px-6 rounded-full font-bold hover:bg-gray-800 focus:outline-none">
+                        Kirim Pesan
+                    </button>
+                </form>
+
+                <div id="guestbook-messages" class="mt-12 text-left space-y-6">
+                    <!-- Pesan akan dimuat di sini oleh JavaScript -->
+                    <p class="text-gray-500 text-center">Memuat pesan...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="py-8 text-center bg-black text-gray-400">
+            <div class="max-w-4xl mx-auto content">
+                <p>&copy; 2025 Safi'i & Puput. All rights reserved.</p>
+                <p class="text-sm mt-2">Dibuat dengan ❤️</p>
+            </div>
+        </footer>
+
+    </main>
+
+    <!-- Audio Player -->
+    <audio id="background-music" loop>
+        <!-- Ganti dengan tautan audio publik yang valid -->
+        <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Firebase SDK dan skrip kustom -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        
+        // Konstanta global yang disediakan oleh lingkungan
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        let db;
+        let auth;
+
+        // Inisialisasi Firebase
+        try {
+            const app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            auth = getAuth(app);
+        } catch (error) {
+            console.error("Firebase initialization failed:", error);
+        }
+        
+        // Autentikasi anonim atau dengan token kustom
+        const initializeAuth = async () => {
+            if (!auth) return;
+            try {
+                if (initialAuthToken) {
+                    await signInWithCustomToken(auth, initialAuthToken);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            } catch (error) {
+                console.error("Firebase auth error:", error);
+            }
+        };
+
+        // Fungsi untuk menangani Gemini API
+        const generateWellWish = async (prompt) => {
+            const apiKey = "";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+            const payload = {
+                contents: [{ parts: [{ text: `Tulis ucapan pernikahan yang menyentuh hati dan romantis. Kembangkan pesan ini:\n\n"${prompt}"` }] }],
+                systemInstruction: {
+                    parts: [{ text: "Anda adalah penulis pesan pernikahan yang ramah dan inspirasional. Tulis pesan dalam bahasa yang indah dan romantis." }]
+                }
+            };
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`API error: ${response.statusText}`);
+                }
+
+                const result = await response.json();
+                return result.candidates?.[0]?.content?.parts?.[0]?.text || "Maaf, gagal membuat ucapan yang lebih indah.";
+            } catch (error) {
+                console.error("Gemini API error:", error);
+                return "Maaf, terjadi kesalahan. Silakan coba lagi.";
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const openBtn = document.getElementById('open-invitation');
+            const landingPage = document.getElementById('landing-page');
+            const mainContent = document.getElementById('main-content');
+            const guestNameElem = document.getElementById('guest-name');
+            const backgroundMusic = document.getElementById('background-music');
+            const guestbookForm = document.getElementById('guestbook-form');
+            const guestNameInput = document.getElementById('guest-name-input');
+            const guestMessageInput = document.getElementById('guest-message-input');
+            const guestbookMessagesContainer = document.getElementById('guestbook-messages');
+            const geminiMagicButton = document.getElementById('gemini-magic-button');
+            const magicButtonText = document.getElementById('magic-button-text');
+            
+            // PENTING: Pengecekan elemen utama
+            if (!landingPage || !mainContent || !backgroundMusic || !openBtn) {
+                console.error("Kesalahan DOM: Salah satu elemen penting (landing page, konten utama, atau tombol) tidak ditemukan.");
+                // Jika elemen tidak ditemukan, kita hentikan fungsi untuk menghindari error lebih lanjut
+                return;
+            }
+
+            // Dapatkan nama tamu dari parameter URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const guest = urlParams.get('to');
+            if (guest) {
+                guestNameElem.textContent = guest.replace(/\+/g, ' ');
+                guestNameInput.value = guest.replace(/\+/g, ' ');
+            }
+
+            // Fungsi untuk menangani pembukaan undangan
+            const openInvitation = () => {
+                // 1. Coba putar musik, tangani kegagalan dengan aman tanpa menghentikan eksekusi visual.
+                backgroundMusic.volume = 0.5;
+                try {
+                    // Gunakan .play() yang langsung dipicu oleh interaksi pengguna
+                    backgroundMusic.play().catch(e => {
+                        // Jika Promise ditolak (biasanya karena peramban memblokir), log peringatan, tapi lanjutkan.
+                        console.warn("Gagal memutar audio, melanjutkan visual.", e);
+                    });
+                } catch (e) {
+                     console.error("Kesalahan sinkron saat memutar audio:", e);
+                }
+                
+                // 2. Lakukan transisi visual (ini HARUS berjalan)
+                landingPage.classList.add('opacity-0');
+                
+                // 3. Tampilkan konten utama setelah transisi visual selesai
+                setTimeout(() => {
+                    landingPage.classList.add('hidden');
+                    mainContent.classList.remove('hidden');
+                    initIntersectionObserver();
+                }, 1000);
+            };
+
+            // Event listener untuk tombol buka undangan
+            openBtn.addEventListener('click', openInvitation);
+
+            // Hitung Mundur
+            const countDownDate = new Date("Oct 9, 2025 08:00:00").getTime();
+            const x = setInterval(function() {
+                const now = new Date().getTime();
+                const distance = countDownDate - now;
+                
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                const countdownHtml = `
+                    <div class="countdown-item">
+                        <p>${days}</p>
+                        <span>Hari</span>
+                    </div>
+                    <div class="countdown-item">
+                        <p>${hours}</p>
+                        <span>Jam</span>
+                    </div>
+                    <div class="countdown-item">
+                        <p>${minutes}</p>
+                        <span>Menit</span>
+                    </div>
+                    <div class="countdown-item">
+                        <p>${seconds}</p>
+                        <span>Detik</span>
+                    </div>
+                `;
+                document.getElementById("countdown-timer").innerHTML = countdownHtml;
+                
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.getElementById("countdown-timer").innerHTML = "<p>Kami telah menikah!</p>";
+                }
+            }, 1000);
+
+            // Animasi Scroll
+            const sections = document.querySelectorAll('section');
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.2
+            };
+
+            function initIntersectionObserver() {
+                const observer = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('is-visible');
+                        }
+                    });
+                }, observerOptions);
+
+                sections.forEach(section => {
+                    const content = section.querySelector('.content');
+                    if (content) {
+                        observer.observe(content);
+                    }
+                });
+            }
+
+            // Inisialisasi Firebase Auth
+            onAuthStateChanged(auth, async (user) => {
+                if (user) {
+                    console.log("Pengguna sudah terautentikasi.");
+                    setupFirestoreListener();
+                } else {
+                    await initializeAuth();
+                }
+            });
+
+            // Fungsi untuk mengatur pendengar Firestore
+            function setupFirestoreListener() {
+                if (!db || !auth.currentUser) return;
+
+                // Penggunaan collection path sesuai aturan publik
+                const messagesRef = collection(db, `artifacts/${appId}/public/data/guestbook_messages`);
+                const q = query(messagesRef); // Tidak menggunakan orderBy untuk menghindari error index
+                
+                onSnapshot(q, (querySnapshot) => {
+                    const messages = [];
+                    querySnapshot.forEach((doc) => {
+                        messages.push(doc.data());
+                    });
+                    // Sortir pesan berdasarkan timestamp (di sisi klien)
+                    messages.sort((a, b) => (b.timestamp?.toMillis() || 0) - (a.timestamp?.toMillis() || 0));
+                    
+                    displayGuestbookMessages(messages);
+                });
+            }
+
+            // Fungsi untuk menampilkan pesan buku tamu
+            function displayGuestbookMessages(messages) {
+                guestbookMessagesContainer.innerHTML = ''; // Hapus pesan lama
+                if (messages.length === 0) {
+                    guestbookMessagesContainer.innerHTML = '<p class="text-gray-500 text-center">Belum ada ucapan. Jadilah yang pertama!</p>';
+                    return;
+                }
+
+                messages.forEach(msg => {
+                    const messageElement = document.createElement('div');
+                    messageElement.className = 'guestbook-message';
+                    
+                    const time = msg.timestamp ? new Date(msg.timestamp.toMillis()).toLocaleString('id-ID', {
+                        day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit'
+                    }) : '';
+
+                    messageElement.innerHTML = `
+                        <p class="message-author">${msg.name || 'Tamu Anonim'}</p>
+                        <p class="text-xs text-gray-500 mb-2">${time}</p>
+                        <p>${msg.message}</p>
+                    `;
+                    guestbookMessagesContainer.appendChild(messageElement);
+                });
+            }
+
+            // Event listener untuk tombol Sentuhan Ajaib
+            geminiMagicButton.addEventListener('click', async () => {
+                const originalMessage = guestMessageInput.value;
+                if (!originalMessage.trim()) {
+                    guestMessageInput.placeholder = "Tulis sesuatu terlebih dahulu!";
+                    return;
+                }
+
+                magicButtonText.textContent = "Membuat...";
+                geminiMagicButton.disabled = true;
+
+                const generatedMessage = await generateWellWish(originalMessage);
+                guestMessageInput.value = generatedMessage;
+
+                magicButtonText.textContent = "✨ Sentuhan Ajaib ✨";
+                geminiMagicButton.disabled = false;
+            });
+
+            // Event listener untuk pengiriman formulir
+            guestbookForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const name = guestNameInput.value.trim();
+                const message = guestMessageInput.value.trim();
+                
+                if (!db || !auth.currentUser) {
+                    console.error("Database atau autentikasi belum siap.");
+                    return;
+                }
+
+                if (name && message) {
+                    try {
+                        const messagesRef = collection(db, `artifacts/${appId}/public/data/guestbook_messages`);
+                        await addDoc(messagesRef, {
+                            name: name,
+                            message: message,
+                            timestamp: serverTimestamp()
+                        });
+                        guestMessageInput.value = ''; // Hapus teks setelah dikirim
+                    } catch (error) {
+                        console.error("Gagal mengirim pesan ke Firestore:", error);
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
